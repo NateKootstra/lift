@@ -14,6 +14,26 @@
     <meta name="apple-mobile-web-app-title" content="LiftWM" />
     <link rel="manifest" href="/favicon/site.webmanifest" />
 
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCcyjSl_1cD6LxYVpNwPoyEBUClEGBdzoI",
+            authDomain: "liftmanagersite.firebaseapp.com",
+            projectId: "liftmanagersite",
+            storageBucket: "liftmanagersite.appspot.com",
+            messagingSenderId: "154818722831",
+            appId: "1:154818722831:web:ae740b9bc03a752269777a",
+            measurementId: "G-9CREH93M3C"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+    </script>
+
 </head>
 
 <body>
