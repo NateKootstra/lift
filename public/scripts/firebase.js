@@ -21,8 +21,24 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 
-await setDoc(doc(db, "exercises", "test"), {
-    name: "Test",
-    value: 0,
-    valueType: 1
-});
+
+
+// Add an exercise to the database.
+function addExercise(name, valuetype, value, weight, time, finalRepCount) {
+    setDoc(doc(db, "exercises", name.toLowerCase() + "_" + value.toString()), {
+        name: name,
+        value: value,
+        valueType: valuetype,
+        fields: {
+            weight: weight,
+            time: time,
+            finalRepCount: finalRepCount
+        }
+    });
+}
+
+
+
+
+// Export the functions.
+export { addExercise };
