@@ -19,22 +19,33 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 // Initialize Firestore.
 const db = getFirestore(app);
-
-
-
-email = "TODO"
-password = "Add username and password input system."
-
+// Get Auth.
 const auth = getAuth();
-signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-        const user = userCredential.user;
-        alert("I think it worked?");
-    })
-    .catch((error) => {
-        const errorCode = error.code;
-        alert(errorCode);
-    });
+
+var user = auth.currentUser;
+
+
+
+if (user == null) {
+    console.log(window.location.href)
+    if (!window.location.href.endsWith("/signin.html"))
+        window.location.href = "signin.html";
+} else {
+    var email = "TODO"
+    var password = "Add username and password input system."
+
+    signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            const user = userCredential.user;
+            alert("Authentication successful!");
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            alert("Error code: " + errorCode);
+        });
+}
+
+
 
 
 
