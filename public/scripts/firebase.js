@@ -65,4 +65,4 @@ function addExercise(name, valuetype, value, weight, time, finalRepCount) {
 
 
 // Export the functions.
-export { addExercise };
+export { signIn, addExercise };
