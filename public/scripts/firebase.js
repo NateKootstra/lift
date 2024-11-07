@@ -22,18 +22,19 @@ const db = getFirestore(app);
 // Get Auth.
 const auth = getAuth();
 
+
+// Redirect user to sign in page if the user hasn't signed in.
 var user = auth.currentUser;
-
-
-
 if (user == null) {
     console.log(window.location.href)
     if (!window.location.href.endsWith("/signin.html"))
         window.location.href = "signin.html";
-} else {
-    var email = "TODO"
-    var password = "Add username and password input system."
+}
 
+
+
+// Sign in.
+function signIn(email, password) {
     signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             const user = userCredential.user;
@@ -44,10 +45,6 @@ if (user == null) {
             alert("Error code: " + errorCode);
         });
 }
-
-
-
-
 
 
 // Add an exercise to the database.
