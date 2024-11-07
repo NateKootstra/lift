@@ -1,3 +1,26 @@
-body {
+* {
+    font-family: "Courier New", "Lucida Console", monospace;
     margin: 0;
+}
+
+h1 {
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+
+    font-size: 7.5vh;
+
+    text-align: center;
+
+
+}
+
+div.center {
+    text-align: center;
+}
+
+input {
+    width: 40%;
+    height: 10vh;
+
+    font-size: 5vh;
 }
