@@ -1,0 +1,32 @@
+input {
+    text-align: center;
+
+    background-color: #002245;
+    color: rgb(246, 239, 238);
+    border: 0.35vw solid #99fe00;
+
+    width: 40%;
+    height: 10vh;
+
+    font-size: 5vh;
+}
+
+input:focus {
+    outline: none;
+    border: 0.6vw solid #99fe00;
+}
+
+button {
+    text-align: center;
+
+    background-color: #002245;
+    color: rgb(246, 239, 238);
+    border: 0.3vw solid #99fe00;
+
+    width: 80%;
+    height: 8vh;
+
+    margin-top: 2vh;
+
+    font-size: 4.25vh;
+}

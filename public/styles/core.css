@@ -17,10 +17,3 @@ h1 {
 div.center {
     text-align: center;
 }
-
-input {
-    width: 40%;
-    height: 10vh;
-
-    font-size: 5vh;
-}

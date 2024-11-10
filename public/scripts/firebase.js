@@ -1,9 +1,10 @@
 // Import Firebase libraries.
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
 import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
-import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
 
+// Set configuration.
 const firebaseConfig = {
     apiKey: "AIzaSyCcyjSl_1cD6LxYVpNwPoyEBUClEGBdzoI",
     authDomain: "liftmanagersite.firebaseapp.com",
@@ -24,13 +25,17 @@ const auth = getAuth();
 
 
 // Redirect user to sign in page if the user hasn't signed in.
-var user = auth.currentUser;
-if (user == null) {
-    console.log(window.location.href)
-    if (!window.location.href.endsWith("/signin.html"))
-        window.location.href = "signin.html";
-}
-
+onAuthStateChanged(auth, (user) => {
+    console.log(user)
+    if (user == null) {
+        if (!window.location.href.endsWith("signin/"))
+            window.location.href = "signin/";
+    }
+    else {
+        if (window.location.href.endsWith("signin/"))
+            window.location.href = "/";
+    }
+});
 
 
 // Sign in.
@@ -38,11 +43,11 @@ function signIn(email, password) {
     signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             const user = userCredential.user;
-            alert("Authentication successful!");
+            window.location.href = "/";
         })
         .catch((error) => {
             const errorCode = error.code;
-            alert("Error code: " + errorCode);
+            alert("Incorrect email/password.");
         });
 }
 
@@ -66,3 +71,4 @@ function addExercise(name, valuetype, value, weight, time, finalRepCount) {
 
 // Export the functions.
 export { signIn, addExercise };
+window.signIn = signIn;
