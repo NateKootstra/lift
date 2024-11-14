@@ -6,9 +6,9 @@ input {
     border: 0.35vw solid #99fe00;
 
     width: 40%;
-    height: 10vh;
+    height: 10dvh;
 
-    font-size: 5vh;
+    font-size: 5dvh;
 }
 
 input:focus {
@@ -21,12 +21,12 @@ button {
 
     background-color: #002245;
     color: rgb(246, 239, 238);
-    border: 0.3vw solid #99fe00;
+    border: 0.35vw solid #99fe00;
 
-    width: 80%;
-    height: 8vh;
+    width: 42%;
+    height: 8dvh;
 
-    margin-top: 2vh;
+    margin-top: 2dvh;
 
-    font-size: 4.25vh;
+    font-size: 4.25dvh;
 }

@@ -3,11 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Sign In</title>
+    <title>Settings</title>
 
     <link rel="stylesheet" href="../styles/core.css">
     <link rel="stylesheet" href="../styles/navbar.css">
-    <link rel="stylesheet" href="../styles/input.css">
 
     <link rel="icon" type="image/png" href="../favicon/favicon-48x48.png" sizes="48x48" />
     <link rel="icon" type="image/svg+xml" href="../favicon/favicon.svg" />
@@ -17,24 +16,20 @@
     <link rel="manifest" href="../favicon/site.webmanifest" />
 </head>
 
+
 <body>
     <main>
         <nav>
-            <a>
+            <a href="/">
                 <img src="../images/logo.jpg"></img>
             </a>
-
         </nav>
 
-        <h1>Sign In</h1>
-        <div class="center">
-            <input type="text" placeholder="Email..." id="email">
-            <input type="password" placeholder="Password..." id="password">
-        </div>
-        <div class="center">
-            <button
-                onclick="signIn(document.getElementById('email').value, document.getElementById('password').value)">Authenticate</button>
-        </div>
+        <h1>Clients</h1>
+
+        <template>
+            <a href="/clients/view?id=[ID]"></a>
+        </template>
 
     </main>
 

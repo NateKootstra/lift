@@ -1,7 +1,7 @@
 // Import Firebase libraries.
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
 
 // Set configuration.
@@ -15,7 +15,6 @@ const firebaseConfig = {
     measurementId: "G-9CREH93M3C"
 };
 
-
 // Initialize Firebase.
 const app = initializeApp(firebaseConfig);
 // Initialize Firestore.
@@ -26,10 +25,9 @@ const auth = getAuth();
 
 // Redirect user to sign in page if the user hasn't signed in.
 onAuthStateChanged(auth, (user) => {
-    console.log(user)
     if (user == null) {
         if (!window.location.href.endsWith("signin/"))
-            window.location.href = "signin/";
+            window.location.href = "/signin/";
     }
     else {
         if (window.location.href.endsWith("signin/"))
@@ -41,16 +39,29 @@ onAuthStateChanged(auth, (user) => {
 // Sign in.
 function signIn(email, password) {
     signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            const user = userCredential.user;
+        .then(() => {
             window.location.href = "/";
         })
-        .catch((error) => {
-            const errorCode = error.code;
+        .catch(() => {
             alert("Incorrect email/password.");
         });
 }
 
+// Sign out.
+function signOutUser() {
+    const auth = getAuth();
+    signOut(auth).then(() => {
+        window.location.href = "/signin";
+    }).catch(() => {
+        alert("Couldn't sign you out.")
+    });
+}
+
+
+// Add a client to the database.
+function addClient(firstName, lastName) {
+
+}
 
 // Add an exercise to the database.
 function addExercise(name, valuetype, value, weight, time, finalRepCount) {
@@ -67,8 +78,16 @@ function addExercise(name, valuetype, value, weight, time, finalRepCount) {
 }
 
 
+// Get a client from the database.
+async function getClients() {
+    const client = await getDoc(doc(db, "clients", "list"));
+    return client.data()["clients"];
+}
 
 
 // Export the functions.
-export { signIn, addExercise };
+export { signIn, signOutUser, addClient, addExercise, getClients };
+
+// Make them global.
 window.signIn = signIn;
+window.signOut = signOutUser;

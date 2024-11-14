@@ -7,6 +7,7 @@
 
     <link rel="stylesheet" href="styles/core.css">
     <link rel="stylesheet" href="styles/navbar.css">
+    <link rel="stylesheet" href="styles/home.css">
 
     <link rel="icon" type="image/png" href="/favicon/favicon-48x48.png" sizes="48x48" />
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
@@ -19,10 +20,23 @@
 <body>
     <main>
         <nav>
-            <img src="images/logo.jpg"></img>
+            <a>
+                <img src="images/logo.jpg"></img>
+            </a>
         </nav>
+        <div class="homeButtons">
+            <a>Start Session</a>
+            <a>Complexes</a>
+        </div>
+        <div class="homeButtons">
+            <a href="clients">Clients</a>
+            <a>Exercises</a>
+        </div>
+        <div class="homeButtons">
+            <a>Sessions</a>
+            <a href="settings">Settings</a>
+        </div>
     </main>
-
 
 
     <script type="module" src="scripts/firebase.js"></script>

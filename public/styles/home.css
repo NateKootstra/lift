@@ -1,0 +1,27 @@
+div.homeButtons a {
+    width: calc(50% - 2.5dvh);
+    height: 24.75dvh;
+
+    margin-top: 1dvh;
+
+    display: inline-block;
+
+    background-color: #002245;
+    color: rgb(246, 239, 238);
+    border: 1dvh solid #99fe00;
+
+    font-size: 5vw;
+    line-height: 24.8vh;
+    text-align: center;
+    text-decoration: none;
+}
+
+div.homeButtons {
+    width: calc(100vw - 2dvh);
+
+    margin-left: 1dvh;
+    margin-right: 1dvh;
+
+    display: flex;
+    justify-content: space-between;
+}
