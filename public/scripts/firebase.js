@@ -80,14 +80,23 @@ function addExercise(name, valuetype, value, weight, time, finalRepCount) {
 
 // Get a client from the database.
 async function getClients() {
-    const client = await getDoc(doc(db, "clients", "list"));
-    return client.data()["clients"];
+    const clients = await getDoc(doc(db, "clients", "list"));
+    return clients.data()["clients"];
+}
+
+
+async function showClients() {
+    var clients = await getClients();
+    for (var i = 0; i < clients.length; i++) {
+        console.log(clients[i])
+    }
 }
 
 
 // Export the functions.
-export { signIn, signOutUser, addClient, addExercise, getClients };
+export { signIn, signOutUser, addClient, addExercise, showClients };
 
 // Make them global.
 window.signIn = signIn;
 window.signOut = signOutUser;
+window.showClients = showClients;
