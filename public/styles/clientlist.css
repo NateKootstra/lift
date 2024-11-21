@@ -1,0 +1,19 @@
+a.client {
+    width: 30vw;
+    height: 10vw;
+
+    margin-top: 2vw;
+    margin-left: auto;
+    margin-right: auto;
+
+    display: block;
+
+    background-color: #002245;
+    color: rgb(246, 239, 238);
+    border: 1dvh solid #99fe00;
+
+    font-size: 2vw;
+    line-height: 10vw;
+    text-align: center;
+    text-decoration: none;
+}

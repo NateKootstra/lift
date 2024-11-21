@@ -86,9 +86,17 @@ async function getClients() {
 
 
 async function showClients() {
-    var clients = await getClients();
-    for (var i = 0; i < clients.length; i++) {
-        console.log(clients[i])
+    let clients = await getClients();
+    let template = document.getElementsByTagName("template")[0];
+    for (let i = 0; i < clients.length; i++) {
+        let id = clients[i];
+        let name = id.replace("_", " ");
+
+        let clone = template.content.cloneNode(true);
+        clone.childNodes[0].textContent = name
+        console.log(clone.childNodes[0].href)
+        clone.childNodes[0].href = `/clients/view?id=${id}`
+        document.body.appendChild(clone);
     }
 }
 
