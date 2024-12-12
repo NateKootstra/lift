@@ -1,46 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset='UTF-8'>
     <title>Sign In</title>
 
-    <link rel="stylesheet" href="../styles/core.css">
-    <link rel="stylesheet" href="../styles/navbar.css">
-    <link rel="stylesheet" href="../styles/input.css">
+    <link rel='stylesheet' href='../styles/core.css'>
+    <link rel='stylesheet' href='../styles/navbar.css'>
+    <link rel='stylesheet' href='../styles/input.css'>
 
-    <link rel="icon" type="image/png" href="../favicon/favicon-48x48.png" sizes="48x48" />
-    <link rel="icon" type="image/svg+xml" href="../favicon/favicon.svg" />
-    <link rel="shortcut icon" href="../favicon/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="LiftWM" />
-    <link rel="manifest" href="../favicon/site.webmanifest" />
+    <link rel='icon' type='image/png' href='../favicon/favicon-48x48.png' sizes='48x48' />
+    <link rel='icon' type='image/svg+xml' href='../favicon/favicon.svg' />
+    <link rel='shortcut icon' href='../favicon/favicon.ico' />
+    <link rel='apple-touch-icon' sizes='180x180' href='../favicon/apple-touch-icon.png' />
+    <meta name='apple-mobile-web-app-title' content='LiftWM' />
+    <link rel='manifest' href='../favicon/site.webmanifest' />
 </head>
 
 <body>
     <main>
         <nav>
             <a>
-                <img src="../images/logo.jpg"></img>
+                <img src='../images/logo.jpg'></img>
             </a>
 
         </nav>
 
         <h1>Sign In</h1>
-        <div class="center">
-            <input type="text" placeholder="Email..." id="email">
-            <input type="password" placeholder="Password..." id="password">
+        <div class='center'>
+            <input type='text' placeholder='Email...' id='email'>
+            <input type='password' placeholder='Password...' id='password'>
         </div>
-        <div class="center">
-            <button
-                onclick="signIn(document.getElementById('email').value, document.getElementById('password').value)">Authenticate</button>
+        <div class='center'>
+            <button onclick="signIn(document.getElementById('email').value,
+                document.getElementById('password').value)">Authenticate</button>
         </div>
 
     </main>
 
-
-
-    <script type="module" src="../scripts/firebase.js"></script>
+    <script type='module' src='../scripts/firebase.js'></script>
 </body>
 
 </html>

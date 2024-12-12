@@ -18,7 +18,7 @@
 </head>
 
 
-<body onload="showClients()">
+<body onload="showExercises()">
     <main>
         <nav>
             <a href="/">
@@ -26,21 +26,9 @@
             </a>
         </nav>
 
-        <h1>Manage Clients</h1>
+        <h1>Manage Exercises</h1>
 
-        <div class='center'>
-            <input type='text' placeholder='First Name' id='first'>
-            <input type='text' placeholder='Last Name' id='last'>
-        </div>
-        <div class='center'>
-            <button onclick="addClient(document.getElementById('first').value,
-                        document.getElementById('last').value)">Add</button>
-        </div>
-
-        <template>
-            <div class="center client"><a class="client" href="">[NAME]</a><img class='delete'
-                    src="../images/icons/delete.png"></img></div><br />
-        </template>
+        <template><a class="client" href="">[NAME]</a></template>
     </main>
 
 
