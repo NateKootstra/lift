@@ -1,0 +1,15 @@
+button.complex {
+    text-align: center;
+
+    background-color: #002245;
+    color: rgb(246, 239, 238);
+    border: 0.35vw solid #99fe00;
+
+    width: 51.7vw;
+    height: 4vw;
+
+    display: inline-block;
+    margin-top: 1vw;
+
+    font-size: 2.3vw;
+}

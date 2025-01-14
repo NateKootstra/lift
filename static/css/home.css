@@ -1,6 +1,6 @@
 div.homeButtons a {
     width: calc(50% - 2.5dvh);
-    height: 24.75dvh;
+    height: 38.625dvh;
 
     margin-top: 1dvh;
 
@@ -11,7 +11,7 @@ div.homeButtons a {
     border: 1dvh solid #99fe00;
 
     font-size: 5vw;
-    line-height: 24.8vh;
+    line-height: 37.125dvh;
     text-align: center;
     text-decoration: none;
 }

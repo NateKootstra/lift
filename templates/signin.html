@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+
+
+{% block links %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/input.css') }}">
+{% endblock %}
+
+
+
+{% block content %}
+<body>
+    <main>
+        <h1>Sign In</h1>
+        <div class='center'>
+            <input type='text' placeholder='Name' id='name'>
+            <input type='password' placeholder='Password' id='password'>
+        </div>
+        <div class='center'>
+            <button onclick="signIn(document.getElementById('name').value,
+                document.getElementById('password').value)">Authenticate</button>
+        </div>
+    </main>
+</body>
+{% endblock %}

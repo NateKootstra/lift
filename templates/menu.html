@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+
+
+{% block links %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+{% endblock %}
+
+
+
+{% block content %}
+<body>
+    <main>
+        <div class="homeButtons">
+            <a>Start Session</a>
+            <a href="settings">Settings</a>
+        </div>
+        <div class="homeButtons">
+            <a href="clients">Clients</a>
+            <a href="exercises">Exercises</a>
+        </div>
+    </main>
+</body>
+
+</html>
+{% endblock %}

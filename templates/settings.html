@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+
+
+{% block links %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/input.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/settings.css') }}">
+{% endblock %}
+
+
+
+{% block content %}
+<body>
+    <main>
+        <h1>Settings</h1>
+        <div class="center">
+            <button onclick="window.location.pathname = '/complex';">Manage Complex</button>
+        </div>
+        <div class="center">
+            <button onclick="signOut()">Sign Out</button>
+        </div>
+    </main>
+</body>
+
+{% endblock %}

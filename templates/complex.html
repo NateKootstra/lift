@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+
+
+{% block links %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/exerciselist.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/complex.css') }}">
+{% endblock %}
+
+
+
+{% block content %}
+<body>
+    <main>
+        <h1>Manage Complex</h1>
+
+        <div class="center top" id="selects">
+            {% for exercise in get_complex() %}
+            <select name="exercise{{ loop.index }}" id="exercise{{ loop.index }}">
+                <option value="None">None</option>
+                {% for exercise2 in get_exercises() %}
+                {% if exercise == exercise2 %}
+                <option value="{{ exercise2 }}" selected="selected">{{ exercise2.split("_")[0] + " (" + exercise2.split("_")[1] + ")"}}</option>
+                {% else %}
+                <option value="{{ exercise2 }}">{{ exercise2.split("_")[0] + " (" + exercise2.split("_")[1] + ")"}}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+            {% endfor %}
+        </div>
+        <div class='center'>
+            <button class="complex" onclick="setComplex([{% for exercise in get_complex() %} document.getElementById('exercise{{ loop.index}}').value, {% endfor %}])">Confirm</button>
+        </div>
+    </main>
+</body>
+{% endblock %}

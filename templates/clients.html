@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+
+
+{% block links %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/clientlist.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/complex.css') }}">
+{% endblock %}
+
+
+
+{% block content%}
+<body>
+    <main>
+        <h1>Manage Clients</h1>
+
+        <div class='center'>
+            <input type='text' placeholder='First Name' id='first'><input type='text' placeholder='Last Name' id='last'>
+        </div>
+        <div class='center'>
+            <button class="client" onclick="addClient(document.getElementById('first').value,
+                        document.getElementById('last').value)">Add</button>
+        </div>
+        {% for client in get_clients() %}
+        <div class="center client">
+            <a class="client" href="/client/{{ client }}">{{ client.replace("_", " ") }}</a>
+            <img class='delete' onclick="removeClient('{{ client }}')" src="{{ url_for('static', filename='images/icons/delete.png') }}"></img>
+        </div>
+        {% endfor %}
+    </main>
+</body>
+{% endblock%}
