@@ -188,4 +188,4 @@ def update_select(client, exercise, value):
 
 # Start the application.
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5002)
+    app.run(debug=True, host='0.0.0.0', port=5002, ssl_context=("ssl/local.crt", "ssl/local.key"))
