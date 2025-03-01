@@ -9,7 +9,23 @@ button.complex {
     height: 4vw;
 
     display: inline-block;
-    margin-top: 1vw;
+    margin-top: 0.5vw;
+
+    font-size: 2.3vw;
+}
+
+button.complexhalf {
+    text-align: center;
+
+    background-color: #002245;
+    color: rgb(246, 239, 238);
+    border: 0.35vw solid #99fe00;
+
+    width: 25.61vw;
+    height: 4vw;
+
+    display: inline-block;
+    margin-top: 1.5vw;
 
     font-size: 2.3vw;
 }

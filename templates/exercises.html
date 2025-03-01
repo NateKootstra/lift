@@ -14,15 +14,10 @@
         <h1>Manage Exercises</h1>
 
         <div class='center top'>
-            <input type='text' placeholder='Exercise' id='first'><input type='text' placeholder='Rep Count' id='last'>
+            <input type='text' placeholder='Exercise' id='name'>
         </div>
         <div class="center top">
-            <select name="reptype" id="reptype">
-                {% for repType in get_rep_types() %}
-                <option id="{{ repType["name"] }}" value="{{ repType["name"] }}">{{ repType["name"] }} ({{ repType["nickname"] }})</option>
-                {% endfor %}
-            </select>
-            <select name="tracking" id="tracking">
+            <select name="unit" id="unit">
                 {% for unit in get_units() %}
                 {% if unit["nickname"] == "" %}
                 <option id="{{ unit["name"] }}" value="{{ unit["name"] }}">{{ unit["name"] }}</option>
@@ -34,13 +29,12 @@
         </div>
         <div class='center'>
             <button class="client"
-                onclick="addExercise(document.getElementById('first').value,
-                                document.getElementById('last').value, document.getElementById('reptype').value, document.getElementById('tracking').value)">Add</button>
+                onclick="addExercise(document.getElementById('name').value, document.getElementById('unit').value)">Add</button>
         </div>
         {% for exercise in get_exercises() %}
         <div class="center client">
-            <a class="client" href="/exercise/{{ exercise }}">{{ exercise.split("_")[0] + " (" + exercise.split("_")[1] + ")"}}</a>
-            <img class='delete' onclick="removeExercise('{{ exercise }}')" src="{{ url_for('static', filename='images/icons/delete.png') }}"></img>
+            <a class="client" href="/exercise/{{ exercise["name"] }}">{{ exercise["name"] }}</a>
+            <img class='delete' onclick="removeExercise('{{ exercise["name"] }}')" src="{{ url_for('static', filename='images/icons/delete.png') }}"></img>
         </div>
         {% endfor %}
     </main>

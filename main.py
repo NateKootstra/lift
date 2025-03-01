@@ -3,10 +3,11 @@
 
 
 from flask import Flask, render_template, send_from_directory, url_for, make_response, redirect, request
+import werkzeug
 import os.path
 import random
 
-from datamanager import authenticate, addClient, addExercise, getClients, getExercises, getRepTypes, getUnits, getComplex, removeClient, removeExercise, setComplex
+from datamanager import authenticate, addClient, addExercise, getClients, getExercises, getRepTypes, getUnits, getComplex, removeClient, removeExercise, setComplex, addComplexExercise, removeComplexExercise, updateValue, updateValueSelect
 
 domain = 'http://127.0.0.1:5002'
 app = Flask(__name__)
@@ -15,6 +16,13 @@ app = Flask(__name__)
 def get_clients():
     return getClients()
 app.jinja_env.globals.update(get_clients=get_clients)
+
+def get_session_clients():
+    try:
+        return request.cookies["clients"].split(" | ")
+    except:
+        return []
+app.jinja_env.globals.update(get_session_clients=get_session_clients)
 
 def get_exercises():
     return getExercises()
@@ -41,7 +49,7 @@ def menu():
             return render_template('menu.html')
         else:
             return render_template('signin.html')
-    except:
+    except werkzeug.exceptions.BadRequestKeyError:
         return render_template('signin.html')
 
 @app.route('/clients')
@@ -51,7 +59,7 @@ def clients():
             return render_template('clients.html')
         else:
             return render_template('signin.html')
-    except:
+    except werkzeug.exceptions.BadRequestKeyError:
         return render_template('signin.html')
 
 @app.route('/exercises')
@@ -61,7 +69,7 @@ def exercises():
             return render_template('exercises.html')
         else:
             return render_template('signin.html')
-    except:
+    except werkzeug.exceptions.BadRequestKeyError:
         return render_template('signin.html')
 
 @app.route('/settings')
@@ -71,7 +79,7 @@ def settings():
             return render_template('settings.html')
         else:
             return render_template('signin.html')
-    except:
+    except werkzeug.exceptions.BadRequestKeyError:
         return render_template('signin.html')
 
 @app.route('/complex')
@@ -81,8 +89,23 @@ def complex():
             return render_template('complex.html')
         else:
             return render_template('signin.html')
-    except:
+    except werkzeug.exceptions.BadRequestKeyError:
         return render_template('signin.html')
+    
+@app.route('/session')
+def session():
+    try:    
+        if authenticate(request.cookies["name"], request.cookies["password"]):
+            return render_template('session.html')
+        else:
+            return render_template('signin.html')
+    except werkzeug.exceptions.BadRequestKeyError:
+        return render_template('signin.html')
+
+@app.route('/session2')
+def session2():
+    return render_template('session2.html')
+    
 
 
 # Internally facing:
@@ -104,16 +127,27 @@ def signout_user():
     response.delete_cookie('password')
     return response
 
-@app.route('/addclient/<firstName>/<lastName>')
-def add_client(firstName, lastName):
+@app.route('/addclient/<name>')
+def add_client(name):
     if authenticate(request.cookies["name"], request.cookies["password"]):
-        addClient(firstName, lastName)
+        addClient(name)
     return redirect(f'{domain}/clients')
 
-@app.route('/addexercise/<name>/<reps>/<repType>/<tracking>')
-def add_exercise(name, reps, repType, tracking):
+@app.route('/addsessionclient/<name>')
+def add_session_client(name):
     if authenticate(request.cookies["name"], request.cookies["password"]):
-        addExercise(name, reps, repType, tracking)
+        response = make_response(redirect(f'{domain}/session'))
+        try:
+            if not name + " |" in request.cookies["clients"] and not "| " + name in request.cookies["clients"]:
+                response.set_cookie('clients', request.cookies["clients"] + " | " + name)
+        except:
+            response.set_cookie('clients', name)
+    return response
+
+@app.route('/addexercise/<name>/<unit>')
+def add_exercise(name, unit):
+    if authenticate(request.cookies["name"], request.cookies["password"]):
+        addExercise(name, unit)
     return redirect(f'{domain}/exercises')
 
 @app.route('/removeclient/<client>')
@@ -129,7 +163,27 @@ def remove_exercise(exercise):
 @app.route('/setcomplex/<exerciseComplex>')
 def set_complex(exerciseComplex):
     setComplex(exerciseComplex.split(","))
+    return redirect(f'{domain}/settings')
+
+@app.route('/addcomplexexercise')
+def add_complex_exercise():
+    addComplexExercise()
     return redirect(f'{domain}/complex')
+
+@app.route('/removecomplexexercise')
+def remove_complex_exercise():
+    removeComplexExercise()
+    return redirect(f'{domain}/complex')
+
+@app.route('/update/<client>/<exercise>/<value>')
+def update(client, exercise, value):
+    updateValue(client, exercise, value)
+    return redirect(f'{domain}/session')
+
+@app.route('/updateselect/<client>/<exercise>/<value>')
+def update_select(client, exercise, value):
+    updateValueSelect(client, exercise, value)
+    return redirect(f'{domain}/session')
     
 
 # Start the application.

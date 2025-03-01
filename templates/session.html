@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+
+
+{% block links %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/session.css') }}">
+{% endblock %}
+
+
+
+{% block content%}
+<body>
+    <main>
+        <div class="center">
+            <select id="name">
+                <option id="none" value="none">None</option>
+                {% for client in get_clients() %}
+                <option id="{{ client }}" value="{{ client }}">{{ client }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class='center'>
+            <button class="client" onclick="addSessionClient(document.getElementById('name').value)">Add</button>
+        </div>
+        <div class="center">
+            <div class="wrapperwrapper">
+                <div class="exercisewrapper">
+                    <div class="exercisediv" style="width: 30vw; height: 1.4vw;">
+                    </div>
+                    {% for client in get_session_clients() %}
+                        <div class="inputwrapper">
+                            <div class="exercisediv">
+                                <p>{{ client }}</p>
+                            </div>
+                            {% for exercise in get_complex() %}
+                                {% if exercise == "None" %}
+                                    <div class="noneslot"></div>
+                                {% else %}
+                                    {% for exercise2 in get_exercises() %}
+                                        {% for count in exercise2["data"]["reps"] %}
+                                            {% if exercise == exercise2["name"] + " (" + count + " reps)" %}
+                                                {% for unit in get_units() %}
+                                                    {% if exercise2["unit"] == unit["name"] %}
+                                                        {% if unit["type"] == "number" %}
+                                                            {% if client in exercise2["data"]["reps"][count|string].keys() %}
+                                                                <input placeholder="" value='{{ exercise2["data"]["reps"][count|string][client] }}' id="{{ client + " [|] " + exercise }}" onfocusout="updateInfo('{{ client }}', '{{ exercise }}', document.getElementById('{{ client + " [|] " + exercise }}').value)"></input>
+                                                            {% else %}
+                                                                <input placeholder="" id="{{ client + " [|] " + exercise }}" onfocusout="updateInfo('{{ client }}', '{{ exercise }}', document.getElementById('{{ client + " [|] " + exercise }}').value)"></input>
+                                                            {% endif %}
+                                                        {% elif unit["type"] == "dropdown" %}
+                                                            <select class="valueselect" id="{{ client + " [|] " + exercise }}" onfocusout="updateInfoSelect('{{ client }}', '{{ exercise }}', document.getElementById('{{ client + " [|] " + exercise }}').value)">
+                                                                <option value="none">None</option>
+                                                                {% for option in unit["dropdown"] %}
+                                                                    {% if client in exercise2["data"]["reps"][count|string].keys() %}
+                                                                        {% if option == exercise2["data"]["reps"][count|string][client] %}
+                                                                            <option selected="Selected" value="{{ option }}">{{ option }}</option>
+                                                                        {% else %}
+                                                                            <option value="{{ option }}">{{ option }}</option>
+                                                                        {% endif %}
+                                                                    {% else %}
+                                                                        <option value="{{ option }}">{{ option }}</option>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            </select>
+                                                        {% else %}
+                                                            <div class="noneslot"></div>
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="clientwrapper">
+                    {% if get_session_clients()|length > 0 %}
+                        {% for exercise in get_complex()|reverse %}
+                            {% if not (exercise == "None") %}
+                                <div class="clientdiv" style="margin-top: -{{ 0.31 + (loop.index) * 2.25 * (loop.index < 3) + (loop.index > 2) * 4.5}}vw;">
+                                    <p>{{ exercise }}</p>
+                                </div>
+                            {% else %}
+                                <div class="clientdiv" style="margin-top: -{{ 0.31 + (loop.index) * 2.25 * (loop.index < 3) + (loop.index > 2) * 4.5}}vw; background-color: #001020;"></div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+{% endblock%}

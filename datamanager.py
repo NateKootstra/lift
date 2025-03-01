@@ -10,20 +10,20 @@ def authenticate(name = "", password = ""):
     lists.close()
     return correct
 
-def addClient(firstName, lastName):
+def addClient(name):
     lists = open(f"data/lists.json", 'r')
     newLists = json.loads(lists.read())
-    newLists["clients"].append(firstName + "_" + lastName)
+    newLists["clients"].append(name)
     lists.close()
     lists = open(f"data/lists.json", 'w')
     json.dump(newLists, lists)
     lists.close()
     return
 
-def addExercise(name, reps, repType, tracking):
+def addExercise(name, unit):
     lists = open(f"data/lists.json", 'r')
     newLists = json.loads(lists.read())
-    newLists["exercises"].append(name + "_" + reps + "_" + repType + "_" + tracking)
+    newLists["exercises"].append({"name" : name, "unit" : unit, "data" : {}})
     lists.close()
     lists = open(f"data/lists.json", 'w')
     json.dump(newLists, lists)
@@ -73,7 +73,9 @@ def removeClient(client):
 def removeExercise(exercise):
     lists = open(f"data/lists.json", 'r')
     newLists = json.loads(lists.read())
-    newLists["exercises"].remove(exercise)
+    for exercise2 in newLists["exercises"]:
+        if exercise2["name"] == exercise:
+            newLists["exercises"].remove(exercise2)
     lists.close()
     lists = open(f"data/lists.json", 'w')
     json.dump(newLists, lists)
@@ -84,6 +86,62 @@ def setComplex(exerciseComplex):
     lists = open(f"data/lists.json", 'r')
     newLists = json.loads(lists.read())
     newLists["complex"] = exerciseComplex
+    lists.close()
+    lists = open(f"data/lists.json", 'w')
+    json.dump(newLists, lists)
+    lists.close()
+    return
+
+def addComplexExercise():
+    lists = open(f"data/lists.json", 'r')
+    newLists = json.loads(lists.read())
+    newLists["complex"].append("None")
+    lists.close()
+    lists = open(f"data/lists.json", 'w')
+    json.dump(newLists, lists)
+    lists.close()
+    return
+
+def removeComplexExercise():
+    lists = open(f"data/lists.json", 'r')
+    newLists = json.loads(lists.read())
+    newLists["complex"].pop(-1)
+    lists.close()
+    lists = open(f"data/lists.json", 'w')
+    json.dump(newLists, lists)
+    lists.close()
+    return
+
+def updateValue(client, exercise, value):
+    allowedChars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.']
+    lists = open(f"data/lists.json", 'r')
+    newLists = json.loads(lists.read())
+    if exercise.endswith(" reps)"):
+        exercise = exercise.split(" reps)")[0].split(" (")
+        for i,exercise2 in enumerate(newLists["exercises"]):
+            if exercise2["name"] == exercise[0]:
+                newLists["exercises"][i]["data"]["reps"][exercise[1]][client] = value
+                if value == "NONE":
+                    newLists["exercises"][i]["data"]["reps"][exercise[1]][client] = ""
+    lists.close()
+    for character in value:
+        if not character in allowedChars and not value == "NONE":
+            return
+    lists = open(f"data/lists.json", 'w')
+    json.dump(newLists, lists)
+    lists.close()
+    return
+
+def updateValueSelect(client, exercise, value):
+    lists = open(f"data/lists.json", 'r')
+    newLists = json.loads(lists.read())
+    if exercise.endswith(" reps)"):
+        exercise = exercise.split(" reps)")[0].split(" (")
+        for i,exercise2 in enumerate(newLists["exercises"]):
+            if exercise2["name"] == exercise[0]:
+                newLists["exercises"][i]["data"]["reps"][exercise[1]][client] = value
+                if value == "NONE":
+                    newLists["exercises"][i]["data"]["reps"][exercise[1]][client] = ""
     lists.close()
     lists = open(f"data/lists.json", 'w')
     json.dump(newLists, lists)

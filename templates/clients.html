@@ -15,15 +15,14 @@
         <h1>Manage Clients</h1>
 
         <div class='center'>
-            <input type='text' placeholder='First Name' id='first'><input type='text' placeholder='Last Name' id='last'>
+            <input type='text' placeholder='Name' id='name'>
         </div>
         <div class='center'>
-            <button class="client" onclick="addClient(document.getElementById('first').value,
-                        document.getElementById('last').value)">Add</button>
+            <button class="client" onclick="addClient(document.getElementById('name').value)">Add</button>
         </div>
         {% for client in get_clients() %}
         <div class="center client">
-            <a class="client" href="/client/{{ client }}">{{ client.replace("_", " ") }}</a>
+            <a class="client" href="/client/{{ client }}">{{ client }}</a>
             <img class='delete' onclick="removeClient('{{ client }}')" src="{{ url_for('static', filename='images/icons/delete.png') }}"></img>
         </div>
         {% endfor %}

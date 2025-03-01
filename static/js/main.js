@@ -7,12 +7,12 @@ function signOut() {
 }
 
 
-function addClient(firstName, lastName) {
-    window.location.href = `/addclient/${firstName}/${lastName}`;
+function addClient(name) {
+    window.location.href = `/addclient/${name}`;
 }
 
-function addExercise(name, reps, repType, tracking) {
-    window.location.href = `/addexercise/${name}/${reps}/${repType}/${tracking}`;
+function addExercise(name, unit) {
+    window.location.href = `/addexercise/${name}/${unit}`;
 }
 
 
@@ -27,4 +27,28 @@ function removeExercise(exercise) {
 
 function setComplex(complex) {
     window.location.href = `/setcomplex/${complex}`
+}
+
+function addComplexExercise() {
+    window.location.href = `/addcomplexexercise`
+}
+
+function removeComplexExercise() {
+    window.location.href = `/removecomplexexercise`
+}
+
+
+function addSessionClient(name) {
+    if (!(name == "none"))
+        window.location.href = `/addsessionclient/${name}`
+}
+
+function updateInfo(client, exercise, value) {
+    if (!(value == ""))
+        window.location.href = `/update/${client}/${exercise}/${value}`
+}
+
+
+function updateInfoSelect(client, exercise, value) {
+    window.location.href = `/updateselect/${client}/${exercise}/${value}`
 }
