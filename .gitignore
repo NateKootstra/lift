@@ -4,8 +4,8 @@ __pycache__/
 # Data.
 data/
 
-# SSL Certifications.
-ssl/
-
 # Time tracker.
 timetracker/
+
+# Personal notes for the project.
+NOTES
