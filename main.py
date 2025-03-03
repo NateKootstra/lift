@@ -7,7 +7,7 @@ import werkzeug
 import os.path
 import random
 
-from datamanager import authenticate, addClient, addExercise, getClients, getExercises, getRepTypes, getUnits, getComplex, removeClient, removeExercise, setComplex, addComplexExercise, removeComplexExercise, updateValue, updateValueSelect
+from datamanager import authenticate, addClient, addExercise, getClients, getExercises, getRepTypes, getUnits, getComplex, getSuggestion, removeClient, removeExercise, setComplex, addComplexExercise, removeComplexExercise, updateValue, updateValueSelect
 
 domain = 'http://127.0.0.1:5002'
 app = Flask(__name__)
@@ -39,6 +39,10 @@ app.jinja_env.globals.update(get_units=get_units)
 def get_complex():
     return getComplex()
 app.jinja_env.globals.update(get_complex=get_complex)
+
+def get_suggestion(exercise, reps, client):
+    return getSuggestion(exercise, reps, client)
+app.jinja_env.globals.update(get_suggestion=get_suggestion)
 
 # Public pages:
 
@@ -101,10 +105,6 @@ def session():
             return render_template('signin.html')
     except werkzeug.exceptions.BadRequestKeyError:
         return render_template('signin.html')
-
-@app.route('/session2')
-def session2():
-    return render_template('session2.html')
     
 
 
@@ -138,7 +138,7 @@ def add_session_client(name):
     if authenticate(request.cookies["name"], request.cookies["password"]):
         response = make_response(redirect(f'{domain}/session'))
         try:
-            if not name + " |" in request.cookies["clients"] and not "| " + name in request.cookies["clients"]:
+            if not name + " |" in request.cookies["clients"] and not "| " + name in request.cookies["clients"] and not name == request.cookies["clients"]:
                 response.set_cookie('clients', request.cookies["clients"] + " | " + name)
         except:
             response.set_cookie('clients', name)

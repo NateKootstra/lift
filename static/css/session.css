@@ -1,5 +1,45 @@
-select {
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+}
+
+td,
+th,
+tr {
+    width: fit-content;
+    border: 0.05vw solid black;
+    text-align: left;
+    padding: 0.2vw;
+    font-size: 1.2vw;
+}
+
+th {
     text-align: center;
+
+    padding-left: 1vw;
+    padding-right: 1vw;
+}
+
+td.none {
+    background-color: black;
+}
+
+td:first-child(),
+th:first-child() {
+    padding-left: 0.5vw;
+}
+
+tr:nth-child(even) th,
+tr:nth-child(even) td,
+tr:nth-child(even) input,
+tr:nth-child(even) select {
+    background-color: #a3a3a3;
+}
+
+select.addselect {
+    text-align: center;
+
+    border: none;
 
     background-color: #002245;
     color: rgb(246, 239, 238);
@@ -32,133 +72,27 @@ button.client {
     font-size: 2.3vw;
 }
 
-div.exercisediv {
-    background-color: #002245;
-    border: 0.35vw solid #99fe00;
-
-
-    padding: 0.3vw;
-    padding-bottom: 0.25vw;
-    margin-left: -0.175vw;
-    margin-right: -0.175vw;
-    min-width: 10.5vw;
-
-    display: inline-block;
-}
-
-div.clientdiv {
-    background-color: #002245;
-    border: 0.35vw solid #99fe00;
-
-
-    padding: 0.3vw;
-    padding-bottom: 0.25vw;
-    margin: -0.175vw;
-
-    width: 30vw;
-    height: 1.4vw;
-
-    display: block;
-}
-
-div.clientwrapper {
-    height: fit-content;
-    width: fit-content;
-}
-
-p {
-    color: rgb(246, 239, 238);
-    font-size: 1.2vw;
-}
-
-div.exercisewrapper {
-    display: flex;
-    justify-content: center;
-}
-
-div.wrapperwrapper {
-    width: fit-content;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-div.inputwrapper {
-    width: fit-content;
-}
-
 input {
-    width: calc(100% - 0.85vw);
+    width: fit-content;
+    height: fit-content;
 
-    background-color: #002245;
-    border: 0.35vw solid #99fe00;
-    color: rgb(246, 239, 238);
+    font-size: 1.2vw;
+    border: none;
+
     text-align: center;
-    font-size: 0.8vw;
-    line-height: 0.8vw;
-
-
-    padding: 0.3vw;
-    padding-bottom: 0.25vw;
-    margin-left: -0.175vw;
-    margin-right: -0.175vw;
-    margin-top: -0.34vw;
-
-    height: 1.41vw;
 
     display: block;
 }
 
 select.valueselect {
-    width: calc(100% + 0.35vw);
+    width: 100%;
+    height: fit-content;
 
-    background-color: #001b36;
-    border: 0.35vw solid #99fe00;
-    color: rgb(246, 239, 238);
+    font-size: 1.2vw;
+    border: none;
     text-align: center;
-    font-size: 0.8vw;
-    line-height: 0.8vw;
-
-
-    padding: 0.33vw;
-    padding-bottom: 0.24vw;
-    margin-left: -0.175vw;
-    margin-right: -0.175vw;
-    margin-top: -0.34vw;
-    margin-bottom: -0.34vw;
-
-    height: 2.55vw;
-
-    display: block;
 }
 
-div.noneslot {
-    width: calc(100% - 0.7vw);
-
-    background-color: #001020;
-    border: 0.35vw solid #99fe00;
-    color: rgb(246, 239, 238);
-    text-align: center;
-    font-size: 0.8vw;
-    line-height: 0.8vw;
-
-
-    padding: 0.24vw;
-    padding-bottom: 0.26vw;
-    margin-left: -0.175vw;
-    margin-right: -0.175vw;
-    margin-top: -0.34vw;
-
-    height: 1.4vw;
-
-    display: block;
-}
-
-input:focus {
+*:focus {
     outline: none;
-    background-color: #003163;
-}
-
-select.valueselect:focus {
-    outline: none;
-    background-color: #003163;
 }

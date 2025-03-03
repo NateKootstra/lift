@@ -60,6 +60,15 @@ def getComplex():
     lists.close()
     return exerciseComplex
 
+def getSuggestion(exercise, reps, client):
+    lists = open(f"data/lists.json", 'r')
+    realExercise = None
+    for tempExercise in json.loads(lists.read())["exercises"]:
+        if exercise == tempExercise["name"]:
+            realExercise = tempExercise
+    lists.close()
+    return realExercise
+
 def removeClient(client):
     lists = open(f"data/lists.json", 'r')
     newLists = json.loads(lists.read())

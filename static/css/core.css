@@ -11,10 +11,17 @@ h1 {
     font-size: 2vw;
 
     text-align: center;
-
-
 }
 
-div.center {
+select {
+    appearance: none;
+}
+
+.center {
     text-align: center;
+}
+
+.centermargins {
+    margin-left: auto;
+    margin-right: auto;
 }

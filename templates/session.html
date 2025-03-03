@@ -12,10 +12,10 @@
 <body>
     <main>
         <div class="center">
-            <select id="name">
+            <select id="name" class="addselect">
                 <option id="none" value="none">None</option>
                 {% for client in get_clients() %}
-                <option id="{{ client }}" value="{{ client }}">{{ client }}</option>
+                    <option id="{{ client }}" value="{{ client }}">{{ client }}</option>
                 {% endfor %}
             </select>
         </div>
@@ -23,72 +23,66 @@
             <button class="client" onclick="addSessionClient(document.getElementById('name').value)">Add</button>
         </div>
         <div class="center">
-            <div class="wrapperwrapper">
-                <div class="exercisewrapper">
-                    <div class="exercisediv" style="width: 30vw; height: 1.4vw;">
-                    </div>
-                    {% for client in get_session_clients() %}
-                        <div class="inputwrapper">
-                            <div class="exercisediv">
-                                <p>{{ client }}</p>
-                            </div>
-                            {% for exercise in get_complex() %}
-                                {% if exercise == "None" %}
-                                    <div class="noneslot"></div>
-                                {% else %}
-                                    {% for exercise2 in get_exercises() %}
+            {% if get_session_clients()|length > 0 %}
+                <table class="centermargins">
+                    <tr>
+                        <th>Exercise</th>
+                        {% for client in get_session_clients() %}
+                            <th>{{ client }}</th>
+                        {% endfor %}
+                    </tr>
+                    {% for exercise in get_complex() %}
+                        {% if not (exercise == "None") %}
+                        <tr>
+                            <td>{{ exercise }}</td>
+                            {% for client in get_session_clients() %}
+                                {% with exercises = get_exercises() %}
+                                    {% for exercise2 in exercises %}
                                         {% for count in exercise2["data"]["reps"] %}
                                             {% if exercise == exercise2["name"] + " (" + count + " reps)" %}
                                                 {% for unit in get_units() %}
                                                     {% if exercise2["unit"] == unit["name"] %}
                                                         {% if unit["type"] == "number" %}
-                                                            {% if client in exercise2["data"]["reps"][count|string].keys() %}
-                                                                <input placeholder="" value='{{ exercise2["data"]["reps"][count|string][client] }}' id="{{ client + " [|] " + exercise }}" onfocusout="updateInfo('{{ client }}', '{{ exercise }}', document.getElementById('{{ client + " [|] " + exercise }}').value)"></input>
-                                                            {% else %}
-                                                                <input placeholder="" id="{{ client + " [|] " + exercise }}" onfocusout="updateInfo('{{ client }}', '{{ exercise }}', document.getElementById('{{ client + " [|] " + exercise }}').value)"></input>
-                                                            {% endif %}
+                                                            {% with suggestion = get_suggestion(exercise.split(' (')[0], exercise.split(' (')[1].split(')')[0], client) %}
+                                                                <td><input placeholder="{{ suggestion }}" value="{{ exercise2['data']['reps'][count][client] }}"></input></td>
+                                                            {% endwith %}
                                                         {% elif unit["type"] == "dropdown" %}
-                                                            <select class="valueselect" id="{{ client + " [|] " + exercise }}" onfocusout="updateInfoSelect('{{ client }}', '{{ exercise }}', document.getElementById('{{ client + " [|] " + exercise }}').value)">
-                                                                <option value="none">None</option>
-                                                                {% for option in unit["dropdown"] %}
-                                                                    {% if client in exercise2["data"]["reps"][count|string].keys() %}
-                                                                        {% if option == exercise2["data"]["reps"][count|string][client] %}
-                                                                            <option selected="Selected" value="{{ option }}">{{ option }}</option>
+                                                            <td>
+                                                                <select class="valueselect" id="{{ client + " [|] " + exercise }}" onfocusout="updateInfoSelect('{{ client }}', '{{ exercise }}', document.getElementById('{{ client + " [|] " + exercise }}').value)">
+                                                                    <option value="none">None</option>
+                                                                    {% for option in unit["dropdown"] %}
+                                                                        {% if client in exercise2["data"]["reps"][count|string].keys() %}
+                                                                            {% if option == exercise2["data"]["reps"][count|string][client] %}
+                                                                                <option selected="Selected" value="{{ option }}">{{ option }}</option>
+                                                                            {% else %}
+                                                                                <option value="{{ option }}">{{ option }}</option>
+                                                                            {% endif %}
                                                                         {% else %}
                                                                             <option value="{{ option }}">{{ option }}</option>
                                                                         {% endif %}
-                                                                    {% else %}
-                                                                        <option value="{{ option }}">{{ option }}</option>
-                                                                    {% endif %}
-                                                                {% endfor %}
-                                                            </select>
-                                                        {% else %}
-                                                            <div class="noneslot"></div>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </td>
                                                         {% endif %}
                                                     {% endif %}
                                                 {% endfor %}
                                             {% endif %}
                                         {% endfor %}
                                     {% endfor %}
-                                {% endif %}
+                                {% endwith %}
                             {% endfor %}
-                        </div>
+                        </tr>
+                        {% else %}
+                            <tr>
+                                <td class="none">None</td>
+                                {% for client in get_session_clients() %}
+                                <td class="none"></td>
+                                {% endfor %}
+                            </tr>
+                        {% endif %}
                     {% endfor %}
-                </div>
-                <div class="clientwrapper">
-                    {% if get_session_clients()|length > 0 %}
-                        {% for exercise in get_complex()|reverse %}
-                            {% if not (exercise == "None") %}
-                                <div class="clientdiv" style="margin-top: -{{ 0.31 + (loop.index) * 2.25 * (loop.index < 3) + (loop.index > 2) * 4.5}}vw;">
-                                    <p>{{ exercise }}</p>
-                                </div>
-                            {% else %}
-                                <div class="clientdiv" style="margin-top: -{{ 0.31 + (loop.index) * 2.25 * (loop.index < 3) + (loop.index > 2) * 4.5}}vw; background-color: #001020;"></div>
-                            {% endif %}
-                        {% endfor %}
-                    {% endif %}
-                </div>
-            </div>
+                </table>
+            {% endif %}
         </div>
     </main>
 </body>
