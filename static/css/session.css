@@ -1,6 +1,6 @@
 table {
-    font-family: arial, sans-serif;
     border-collapse: collapse;
+    white-space: nowrap;
 }
 
 td,
@@ -8,7 +8,7 @@ th,
 tr {
     width: fit-content;
     border: 0.05vw solid black;
-    text-align: left;
+    text-align: center;
     padding: 0.2vw;
     font-size: 1.2vw;
 }
@@ -16,17 +16,8 @@ tr {
 th {
     text-align: center;
 
-    padding-left: 1vw;
-    padding-right: 1vw;
-}
-
-td.none {
-    background-color: black;
-}
-
-td:first-child(),
-th:first-child() {
     padding-left: 0.5vw;
+    padding-right: 0.5vw;
 }
 
 tr:nth-child(even) th,
@@ -62,10 +53,11 @@ button.client {
     color: rgb(246, 239, 238);
     border: 0.35vw solid #99fe00;
 
-    width: 51.7vw;
+    width: 25.6vw;
     height: 4vw;
 
-    margin-top: 0vw;
+    margin-left: 0.22vw;
+    margin-right: 0.22vw;
     margin-bottom: 2vw;
 
 
@@ -73,10 +65,14 @@ button.client {
 }
 
 input {
-    width: fit-content;
+    width: 100%;
     height: fit-content;
 
+    min-width: 6.5vw;
+
     font-size: 1.2vw;
+    color: #07680c;
+    font-weight: bold;
     border: none;
 
     text-align: center;
@@ -84,11 +80,20 @@ input {
     display: block;
 }
 
+::placeholder {
+    font-weight: bold;
+
+    color: #000000;
+    opacity: 1;
+}
+
 select.valueselect {
     width: 100%;
     height: fit-content;
 
-    font-size: 1.2vw;
+    font-size: 1.18vw;
+    font-weight: bold;
+
     border: none;
     text-align: center;
 }

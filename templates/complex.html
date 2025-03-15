@@ -16,26 +16,24 @@
 
         <div class="center top" id="selects">
             {% for exercise in get_complex() %}
-            <select name="exercise{{ loop.index }}" id="exercise{{ loop.index }}">
-                <option value="None">None</option>
-                {% for exercise2 in get_exercises() %}
-                    {% for count in exercise2["data"]["reps"] %}
-                        {% if exercise == exercise2["name"] + " (" + count + " reps)" %}
-                            <option value="{{ exercise2["name"] + " (" + count + " reps)" }}" selected="selected">{{ exercise2["name"] + " (" + count + " reps)" }}</option>
-                        {% else %}
-                            <option value="{{ exercise2["name"] + " (" + count + " reps)" }}">{{ exercise2["name"] + " (" + count + " reps)" }}</option>
-                        {% endif %}
-                    {% endfor %}
-                {% endfor %}
-            </select>
+            <div class="align">
+                <img onclick="addComplexExercise({{ loop.index }})" src="{{ url_for('static', filename='images/icons/add.png') }}"></img><select name="exercise{{ loop.index }}" id="exercise{{ loop.index }}">
+                        <option value="None">None</option>
+                        {% for exercise2 in get_exercises() %}
+                            {% for count in exercise2["data"]["reps"] %}
+                                {% if exercise == exercise2["name"] + " | " + count + " | reps" %}
+                                    <option value="{{ exercise2["name"] + " | " + count + " | reps" }}" selected="selected">{{ exercise2["name"] + " (" + count + " reps)" }}</option>
+                                {% else %}
+                                    <option value="{{ exercise2["name"] + " | " + count + " | reps" }}">{{ exercise2["name"] + " (" + count + " reps)" }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                    </select><img onclick="removeComplexExercise({{ loop.index }})" src="{{ url_for('static', filename='images/icons/remove.png') }}"></img>
+            </div>
             {% endfor %}
         </div>
         <div class='center'>
-            <button class="complexhalf" onclick="addComplexExercise()">Add</button>
-            <button class="complexhalf" onclick="removeComplexExercise()">Remove</button>
-        </div>
-        <div class='center'>
-            <button class="complex" onclick="setComplex([{% for exercise in get_complex() %} document.getElementById('exercise{{ loop.index}}').value, {% endfor %}])">Confirm</button>
+            <button class="complex" onclick="setComplex([{% for exercise in get_complex() %} document.getElementById('exercise{{ loop.index }}').value, {% endfor %}])">Confirm</button>
         </div>
     </main>
 </body>

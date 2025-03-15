@@ -60,14 +60,33 @@ def getComplex():
     lists.close()
     return exerciseComplex
 
-def getSuggestion(exercise, reps, client):
+def getSuggestion(exercise, reps, repType, client):
     lists = open(f"data/lists.json", 'r')
     realExercise = None
     for tempExercise in json.loads(lists.read())["exercises"]:
         if exercise == tempExercise["name"]:
             realExercise = tempExercise
     lists.close()
-    return realExercise
+    i = 0
+    reps1 = int(reps)
+    reps2 = int(reps)
+    try:
+        return realExercise["data"][repType][str(reps1)][client]
+    except:
+        pass
+    while i < 100:
+        reps1 += 1
+        reps2 -= 1
+        i += 1
+        try:
+            return str(realExercise["data"][repType][str(reps1)][client]) + f" ({reps1})"
+        except:
+            pass
+        try:
+            return str(realExercise["data"][repType][str(reps2)][client]) + f" ({reps2})"
+        except:
+            pass
+    return ""
 
 def removeClient(client):
     lists = open(f"data/lists.json", 'r')
@@ -101,20 +120,20 @@ def setComplex(exerciseComplex):
     lists.close()
     return
 
-def addComplexExercise():
+def addComplexExercise(index):
     lists = open(f"data/lists.json", 'r')
     newLists = json.loads(lists.read())
-    newLists["complex"].append("None")
+    newLists["complex"].insert(int(index), "None")
     lists.close()
     lists = open(f"data/lists.json", 'w')
     json.dump(newLists, lists)
     lists.close()
     return
 
-def removeComplexExercise():
+def removeComplexExercise(index):
     lists = open(f"data/lists.json", 'r')
     newLists = json.loads(lists.read())
-    newLists["complex"].pop(-1)
+    newLists["complex"].pop(int(index) - 1)
     lists.close()
     lists = open(f"data/lists.json", 'w')
     json.dump(newLists, lists)
@@ -125,8 +144,8 @@ def updateValue(client, exercise, value):
     allowedChars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.']
     lists = open(f"data/lists.json", 'r')
     newLists = json.loads(lists.read())
-    if exercise.endswith(" reps)"):
-        exercise = exercise.split(" reps)")[0].split(" (")
+    exercise = exercise.split(" | ")
+    if exercise[2] == "reps":
         for i,exercise2 in enumerate(newLists["exercises"]):
             if exercise2["name"] == exercise[0]:
                 newLists["exercises"][i]["data"]["reps"][exercise[1]][client] = value
@@ -144,8 +163,8 @@ def updateValue(client, exercise, value):
 def updateValueSelect(client, exercise, value):
     lists = open(f"data/lists.json", 'r')
     newLists = json.loads(lists.read())
-    if exercise.endswith(" reps)"):
-        exercise = exercise.split(" reps)")[0].split(" (")
+    exercise = exercise.split(" | ")
+    if exercise[2] == "reps":
         for i,exercise2 in enumerate(newLists["exercises"]):
             if exercise2["name"] == exercise[0]:
                 newLists["exercises"][i]["data"]["reps"][exercise[1]][client] = value
@@ -156,3 +175,9 @@ def updateValueSelect(client, exercise, value):
     json.dump(newLists, lists)
     lists.close()
     return
+
+def getRawData():
+    lists = open(f"data/lists.json", 'r')
+    data = json.loads(lists.read())
+    lists.close()
+    return data

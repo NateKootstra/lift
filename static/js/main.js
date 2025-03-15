@@ -29,18 +29,23 @@ function setComplex(complex) {
     window.location.href = `/setcomplex/${complex}`
 }
 
-function addComplexExercise() {
-    window.location.href = `/addcomplexexercise`
+function addComplexExercise(index) {
+    window.location.href = `/addcomplexexercise/${index}`
 }
 
-function removeComplexExercise() {
-    window.location.href = `/removecomplexexercise`
+function removeComplexExercise(index) {
+    window.location.href = `/removecomplexexercise/${index}`
 }
 
 
 function addSessionClient(name) {
     if (!(name == "none"))
         window.location.href = `/addsessionclient/${name}`
+}
+
+function removeSessionClient(name) {
+    if (!(name == "none"))
+        window.location.href = `/removesessionclient/${name}`
 }
 
 function updateInfo(client, exercise, value) {

@@ -7,7 +7,7 @@ import werkzeug
 import os.path
 import random
 
-from datamanager import authenticate, addClient, addExercise, getClients, getExercises, getRepTypes, getUnits, getComplex, getSuggestion, removeClient, removeExercise, setComplex, addComplexExercise, removeComplexExercise, updateValue, updateValueSelect
+from datamanager import authenticate, addClient, addExercise, getClients, getExercises, getRepTypes, getUnits, getComplex, getSuggestion, removeClient, removeExercise, setComplex, addComplexExercise, removeComplexExercise, updateValue, updateValueSelect, getRawData
 
 domain = 'http://127.0.0.1:5002'
 app = Flask(__name__)
@@ -19,7 +19,10 @@ app.jinja_env.globals.update(get_clients=get_clients)
 
 def get_session_clients():
     try:
-        return request.cookies["clients"].split(" | ")
+        clients = request.cookies["clients"].split("|")
+        while "" in clients:
+            clients.remove("")
+        return clients
     except:
         return []
 app.jinja_env.globals.update(get_session_clients=get_session_clients)
@@ -40,8 +43,8 @@ def get_complex():
     return getComplex()
 app.jinja_env.globals.update(get_complex=get_complex)
 
-def get_suggestion(exercise, reps, client):
-    return getSuggestion(exercise, reps, client)
+def get_suggestion(exercise, reps, repType, client):
+    return getSuggestion(exercise, reps, repType, client)
 app.jinja_env.globals.update(get_suggestion=get_suggestion)
 
 # Public pages:
@@ -138,10 +141,21 @@ def add_session_client(name):
     if authenticate(request.cookies["name"], request.cookies["password"]):
         response = make_response(redirect(f'{domain}/session'))
         try:
-            if not name + " |" in request.cookies["clients"] and not "| " + name in request.cookies["clients"] and not name == request.cookies["clients"]:
-                response.set_cookie('clients', request.cookies["clients"] + " | " + name)
+            if not "|" + name + "|" in request.cookies["clients"]:
+                response.set_cookie('clients', request.cookies["clients"] + name + "|")
         except:
-            response.set_cookie('clients', name)
+            response.set_cookie('clients', "|" + name + "|")
+    return response
+
+@app.route('/removesessionclient/<name>')
+def remove_session_client(name):
+    if authenticate(request.cookies["name"], request.cookies["password"]):
+        response = make_response(redirect(f'{domain}/session'))
+        response.set_cookie('clients', request.cookies["clients"].replace("|" + name + "|", "|"))
+        while "||" in request.cookies["clients"]:
+            request.cookies["clients"].replace("||", "|")
+        if "|" + name + "|" == request.cookies["clients"]:
+            response.delete_cookie("clients")
     return response
 
 @app.route('/addexercise/<name>/<unit>')
@@ -165,14 +179,14 @@ def set_complex(exerciseComplex):
     setComplex(exerciseComplex.split(","))
     return redirect(f'{domain}/settings')
 
-@app.route('/addcomplexexercise')
-def add_complex_exercise():
-    addComplexExercise()
+@app.route('/addcomplexexercise/<index>')
+def add_complex_exercise(index):
+    addComplexExercise(index)
     return redirect(f'{domain}/complex')
 
-@app.route('/removecomplexexercise')
-def remove_complex_exercise():
-    removeComplexExercise()
+@app.route('/removecomplexexercise/<index>')
+def remove_complex_exercise(index):
+    removeComplexExercise(index)
     return redirect(f'{domain}/complex')
 
 @app.route('/update/<client>/<exercise>/<value>')
@@ -184,6 +198,11 @@ def update(client, exercise, value):
 def update_select(client, exercise, value):
     updateValueSelect(client, exercise, value)
     return redirect(f'{domain}/session')
+
+@app.route('/getrawdata')
+def get_raw_data():
+    if authenticate(request.cookies["name"], request.cookies["password"]):
+        return getRawData()
     
 
 # Start the application.
