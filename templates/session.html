@@ -40,11 +40,11 @@
                             {% with exercises = get_exercises() %}
                                 {% for exercise2 in exercises %}
                                     {% for count in exercise2["data"]["reps"] %}
-                                        {% if exercise == exercise2["name"] + " | " + count + " | reps" %}
+                                        {% if exercise == exercise2["name"] + " | " + count %}
                                             {% for unit in get_units() %}
                                                 {% if exercise2["unit"] == unit["name"] %}
-                                                    {% if unit["type"] == "number" %}
-                                                        {% with suggestion = get_suggestion(exercise.split(' | ')[0], exercise.split(' | ')[1], exercise.split(' | ')[2], client) %}
+                                                    {% if unit["type"] == "text" %}
+                                                        {% with suggestion = get_suggestion(exercise.split(' | ')[0], exercise.split(' | ')[1], client) %}
                                                             <td><input size="1" placeholder="{{ suggestion }}" id="{{ client + " [|] " + exercise }}" onfocusout="updateInfo('{{ client }}', '{{ exercise }}', document.getElementById('{{ client + " [|] " + exercise }}').value)"></input></td>
                                                         {% endwith %}
                                                     {% elif unit["type"] == "dropdown" %}

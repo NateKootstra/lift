@@ -57,3 +57,12 @@ function updateInfo(client, exercise, value) {
 function updateInfoSelect(client, exercise, value) {
     window.location.href = `/updateselect/${client}/${exercise}/${value}`
 }
+
+
+function saveComplex(name) {
+    window.location.href = `/savepreset/${name}`
+}
+
+function loadComplex(name) {
+    window.location.href = `/loadpreset/${name}`
+}

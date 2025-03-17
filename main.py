@@ -7,9 +7,9 @@ import werkzeug
 import os.path
 import random
 
-from datamanager import authenticate, addClient, addExercise, getClients, getExercises, getRepTypes, getUnits, getComplex, getSuggestion, removeClient, removeExercise, setComplex, addComplexExercise, removeComplexExercise, updateValue, updateValueSelect, getRawData
+from datamanager import authenticate, addClient, addExercise, getClients, getExercises, getRepTypes, getUnits, getComplex, getRepAmounts, getSuggestion, removeClient, removeExercise, setComplex, addComplexExercise, removeComplexExercise, updateValue, updateValueSelect, getRawData, getPresets, loadPreset, savePreset
 
-domain = 'http://127.0.0.1:5002'
+domain = 'http://localhost'
 app = Flask(__name__)
 
 
@@ -43,9 +43,17 @@ def get_complex():
     return getComplex()
 app.jinja_env.globals.update(get_complex=get_complex)
 
-def get_suggestion(exercise, reps, repType, client):
-    return getSuggestion(exercise, reps, repType, client)
+def get_rep_amounts():
+    return getRepAmounts()
+app.jinja_env.globals.update(get_rep_amounts=get_rep_amounts)
+
+def get_suggestion(exercise, reps, client):
+    return getSuggestion(exercise, reps, client)
 app.jinja_env.globals.update(get_suggestion=get_suggestion)
+
+def get_presets():
+    return getPresets()
+app.jinja_env.globals.update(get_presets=get_presets)
 
 # Public pages:
 
@@ -166,37 +174,44 @@ def add_exercise(name, unit):
 
 @app.route('/removeclient/<client>')
 def remove_client(client):
-    removeClient(client)
+    if authenticate(request.cookies["name"], request.cookies["password"]):
+        removeClient(client)
     return redirect(f'{domain}/clients')
 
 @app.route('/removeexercise/<exercise>')
 def remove_exercise(exercise):
-    removeExercise(exercise)
+    if authenticate(request.cookies["name"], request.cookies["password"]):
+        removeExercise(exercise)
     return redirect(f'{domain}/exercises')
 
 @app.route('/setcomplex/<exerciseComplex>')
 def set_complex(exerciseComplex):
-    setComplex(exerciseComplex.split(","))
+    if authenticate(request.cookies["name"], request.cookies["password"]):
+        setComplex(exerciseComplex.split(","))
     return redirect(f'{domain}/settings')
 
 @app.route('/addcomplexexercise/<index>')
 def add_complex_exercise(index):
-    addComplexExercise(index)
+    if authenticate(request.cookies["name"], request.cookies["password"]):
+        addComplexExercise(index)
     return redirect(f'{domain}/complex')
 
 @app.route('/removecomplexexercise/<index>')
 def remove_complex_exercise(index):
-    removeComplexExercise(index)
+    if authenticate(request.cookies["name"], request.cookies["password"]):
+        removeComplexExercise(index)
     return redirect(f'{domain}/complex')
 
 @app.route('/update/<client>/<exercise>/<value>')
 def update(client, exercise, value):
-    updateValue(client, exercise, value)
+    if authenticate(request.cookies["name"], request.cookies["password"]):
+        updateValue(client, exercise, value)
     return redirect(f'{domain}/session')
 
 @app.route('/updateselect/<client>/<exercise>/<value>')
 def update_select(client, exercise, value):
-    updateValueSelect(client, exercise, value)
+    if authenticate(request.cookies["name"], request.cookies["password"]):
+        updateValueSelect(client, exercise, value)
     return redirect(f'{domain}/session')
 
 @app.route('/getrawdata')
@@ -204,7 +219,19 @@ def get_raw_data():
     if authenticate(request.cookies["name"], request.cookies["password"]):
         return getRawData()
     
+@app.route('/loadpreset/<name>')
+def load_preset(name):
+    if authenticate(request.cookies["name"], request.cookies["password"]):
+        loadPreset(name)
+    return redirect(f'{domain}/complex')
+
+@app.route('/savepreset/<name>')
+def save_preset(name):
+    if authenticate(request.cookies["name"], request.cookies["password"]):
+        savePreset(name)
+    return redirect(f'{domain}/complex')
+    
 
 # Start the application.
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5002)
+    app.run(debug=True, host='0.0.0.0', port=80)
