@@ -292,6 +292,11 @@ def rename_client(old, new):
         return response
     else:
         return render_template('signin.html')
+    
+# Remote deploy version.
+@app.route('/ver')
+def version():
+    return "v1 (August 6th, 2025)"
 
 
 # Start the application.
