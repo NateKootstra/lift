@@ -2,6 +2,15 @@
     font-family: "Courier New", "Lucida Console", monospace;
     margin: 0;
     padding: 0;
+    font-size: 0;
+}
+
+body {
+    background-color: rgb(246, 239, 238);
+}
+
+option {
+    font-size: 1.5vw;
 }
 
 h1 {

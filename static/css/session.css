@@ -4,13 +4,19 @@ table {
 }
 
 td,
+tr,
 th,
-tr {
+th button {
     width: fit-content;
     border: 0.05vw solid black;
     text-align: center;
     padding: 0.2vw;
-    font-size: 1.2vw;
+    font-size: 1.6vw;
+}
+
+th button {
+    border: none;
+    background-color: rgb(246, 239, 238);
 }
 
 th {
@@ -24,7 +30,7 @@ tr:nth-child(even) th,
 tr:nth-child(even) td,
 tr:nth-child(even) input,
 tr:nth-child(even) select {
-    background-color: #a3a3a3;
+    background-color: #cacaca;
 }
 
 select.addselect {
@@ -36,7 +42,7 @@ select.addselect {
     color: rgb(246, 239, 238);
     border: 0.35vw solid #99fe00;
 
-    width: 51.7vw;
+    width: 50vw;
     height: 3.7vw;
 
     margin-left: 0.2vw;
@@ -53,7 +59,7 @@ button.client {
     color: rgb(246, 239, 238);
     border: 0.35vw solid #99fe00;
 
-    width: 25.6vw;
+    width: 50vw;
     height: 4vw;
 
     margin-left: 0.22vw;
@@ -69,8 +75,10 @@ input {
     height: fit-content;
 
     min-width: 7vw;
+    field-sizing: content;
 
-    font-size: 1.2vw;
+    font-size: 1.6vw;
+    background-color: rgb(246, 239, 238);
     color: #07680c;
     font-weight: bold;
     border: none;
@@ -91,7 +99,9 @@ select.valueselect {
     width: 100%;
     height: fit-content;
 
-    font-size: 1.18vw;
+    background-color: rgb(246, 239, 238);
+
+    font-size: 1.3vw;
     font-weight: bold;
 
     border: none;

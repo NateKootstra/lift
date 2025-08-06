@@ -22,7 +22,7 @@
         </div>
         {% for client in get_clients() %}
         <div class="center client">
-            <a class="client" href="/client/{{ client }}">{{ client }}</a>
+            <input class="client" id="{{ client }}{{ loop.index }}" value="{{ client }}" onfocusout="renameClient('{{ client }}', document.getElementById('{{ client }}{{ loop.index }}').value)"></input>
             <img class='delete' onclick="removeClient('{{ client }}')" src="{{ url_for('static', filename='images/icons/delete.png') }}"></img>
         </div>
         {% endfor %}

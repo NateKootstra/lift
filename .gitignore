@@ -3,9 +3,3 @@ __pycache__/
 
 # Data.
 data/
-
-# Time tracker.
-timetracker/
-
-# Personal notes for the project.
-NOTES

@@ -14,13 +14,13 @@
         <div class="center">
             <select id="name" class="addselect">
                 <option id="none" value="none">None</option>
-                {% for client in get_clients() %}
+                {% for client in get_clients()|sort() %}
                     <option id="{{ client }}" value="{{ client }}">{{ client }}</option>
                 {% endfor %}
             </select>
         </div>
         <div class='center'>
-            <button class="client" onclick="addSessionClient(document.getElementById('name').value)">Add</button><button class="client" onclick="removeSessionClient(document.getElementById('name').value)">Remove</button>
+            <button class="client" onclick="addSessionClient(document.getElementById('name').value)">Add</button>
         </div>
         {% if get_session_clients()|length > 0 %}
             <table class="centermargins">
@@ -28,7 +28,7 @@
                     <th>Exercise</th>
                     <th>Reps</th>
                     {% for client in get_session_clients() %}
-                        <th>{{ client }}</th>
+                        <th><button onclick="removeSessionClient('{{ client }}')">{{ client }}</button></th>
                     {% endfor %}
                 </tr>
                 {% for exercise in get_complex() %}
@@ -43,28 +43,9 @@
                                         {% if exercise == exercise2["name"] + " | " + count %}
                                             {% for unit in get_units() %}
                                                 {% if exercise2["unit"] == unit["name"] %}
-                                                    {% if unit["type"] == "text" %}
-                                                        {% with suggestion = get_suggestion(exercise.split(' | ')[0], exercise.split(' | ')[1], client) %}
-                                                            <td><input size="1" placeholder="{{ suggestion }}" id="{{ client + " [|] " + exercise }}" onfocusout="updateInfo('{{ client }}', '{{ exercise }}', document.getElementById('{{ client + " [|] " + exercise }}').value)"></input></td>
-                                                        {% endwith %}
-                                                    {% elif unit["type"] == "dropdown" %}
-                                                        <td>
-                                                            <select class="valueselect" id="{{ client + " [|] " + exercise }}" onfocusout="updateInfoSelect('{{ client }}', '{{ exercise }}', document.getElementById('{{ client + " [|] " + exercise }}').value)">
-                                                                <option value="none">None</option>
-                                                                {% for option in unit["dropdown"] %}
-                                                                    {% if client in exercise2["data"]["reps"][count|string].keys() %}
-                                                                        {% if option == exercise2["data"]["reps"][count|string][client] %}
-                                                                            <option selected="Selected" value="{{ option }}">{{ option }}</option>
-                                                                        {% else %}
-                                                                            <option value="{{ option }}">{{ option }}</option>
-                                                                        {% endif %}
-                                                                    {% else %}
-                                                                        <option value="{{ option }}">{{ option }}</option>
-                                                                    {% endif %}
-                                                                {% endfor %}
-                                                            </select>
-                                                        </td>
-                                                    {% endif %}
+                                                    {% with suggestion = get_suggestion(exercise.split(' | ')[0], exercise.split(' | ')[1], client) %}
+                                                        <td><input size="1" placeholder="{{ suggestion }}" id="{{ client + " [|] " + exercise }}" onfocusout="updateInfo('{{ client }}', '{{ exercise.replace("'", "\\'") }}', document.getElementById('{{ client + " [|] " + exercise.replace("'", "\\'") }}').value)"></input></td>
+                                                    {% endwith %}
                                                 {% endif %}
                                             {% endfor %}
                                         {% endif %}

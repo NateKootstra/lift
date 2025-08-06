@@ -16,24 +16,13 @@
         <div class='center top'>
             <input type='text' placeholder='Exercise' id='name'>
         </div>
-        <div class="center top">
-            <select name="unit" id="unit">
-                {% for unit in get_units() %}
-                {% if unit["nickname"] == "" %}
-                <option id="{{ unit["name"] }}" value="{{ unit["name"] }}">{{ unit["name"] }}</option>
-                {% else %}
-                <option id="{{ unit["name"] }}" value="{{ unit["name"] }}">{{ unit["name"] }} ({{ unit["nickname"] }})</option>
-                {% endif %}
-                {% endfor %}
-            </select>
-        </div>
         <div class='center'>
             <button class="client"
-                onclick="addExercise(document.getElementById('name').value, document.getElementById('unit').value)">Add</button>
+                onclick="addExercise(document.getElementById('name').value, 'Text')">Add</button>
         </div>
         {% for exercise in get_exercises() %}
         <div class="center client">
-            <a class="client" href="/exercise/{{ exercise["name"] }}">{{ exercise["name"] }}</a>
+            <input class="client" id="{{ exercise["name"] }}{{ loop.index }}" value="{{ exercise["name"] }}" onfocusout="renameExercise('{{ exercise["name"] }}', document.getElementById('{{ exercise["name"] }}{{ loop.index }}').value)"></input>
             <img class='delete' onclick="removeExercise('{{ exercise["name"] }}')" src="{{ url_for('static', filename='images/icons/delete.png') }}"></img>
         </div>
         {% endfor %}
