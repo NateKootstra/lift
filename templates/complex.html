@@ -34,7 +34,7 @@
             <img onclick="addComplexExercise(0)" style="width: 3.5vw; margin-top: 2vw; margin-bottom: 0.6vw;" src="{{ url_for('static', filename='images/icons/add.png') }}">
             {% for exercise in get_complex() %}
             <div class="align">
-                <img onclick="addComplexExercise({{ loop.index }})" src="{{ url_for('static', filename='images/icons/add.png') }}"></img><select onfocusout="setComplex([{% for exercise in get_complex() %} document.getElementById('exercise{{ loop.index }}').value {% if not exercise == 'None' %} + ' | ' + document.getElementById('exercise{{ loop.index }}r').value {% endif %}, {% endfor %}])" name="exercise{{ loop.index }}" id="exercise{{ loop.index }}">
+                <img onclick="addComplexExercise({{ loop.index }})" src="{{ url_for('static', filename='images/icons/add.png') }}"></img><select onfocusout="setComplex([{% for exercise in get_complex() %} document.getElementById('exercise{{ loop.index }}').value {% if not exercise == 'None' %} + ' | ' + document.getElementById('exercise{{ loop.index }}r').value + ' | ' + document.getElementById('exercise{{ loop.index }}t').value {% endif %}, {% endfor %}])" name="exercise{{ loop.index }}" id="exercise{{ loop.index }}">
                         <option value="None">None</option>
                         {% for exercise2 in get_exercises() %}
                             {% if exercise.split(" | ")[0] == exercise2["name"] %}
@@ -43,18 +43,41 @@
                                 <option value="{{ exercise2["name"] }}">{{ exercise2["name"] }}</option>
                             {% endif %}
                         {% endfor %}
-                    </select>{% if not exercise == "None" %}<select style="margin-left: 0.4%; width: 6%" id="exercise{{ loop.index }}r" onfocusout="setComplex([{% for exercise in get_complex() %} document.getElementById('exercise{{ loop.index }}').value {% if not exercise == 'None' %} + ' | ' + document.getElementById('exercise{{ loop.index }}r').value {% endif %}, {% endfor %}])" name="exercise{{ loop.index }}" id="exercise{{ loop.index }}">
-                        <option value="None">Rep</option>
-                        {% for amount in get_rep_amounts() %}
-                            {% if exercise.split(" | ")[1] == amount %}
-                                <option value="{{ amount }}" selected>{{ amount }}</option>
+                    </select>
+                    {% if not exercise == "None" %}
+                        <select style="margin-left: 0.4%; width: 6%" id="exercise{{ loop.index }}r" onfocusout="setComplex([{% for exercise in get_complex() %} document.getElementById('exercise{{ loop.index }}').value {% if not exercise == 'None' %} + ' | ' + document.getElementById('exercise{{ loop.index }}r').value + ' | ' + document.getElementById('exercise{{ loop.index }}t').value {% endif %}, {% endfor %}])" name="exercise{{ loop.index }}" id="exercise{{ loop.index }}">
+                            <option value="None">Rep</option>
+                            {% for amount in get_rep_amounts() %}
+                                {% if exercise.split(" | ")[1] == amount %}
+                                    <option value="{{ amount }}" selected>{{ amount }}</option>
+                                {% else %}
+                                    <option value="{{ amount }}">{{ amount }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        <select style="margin-left: 0.4%; width: 6%" id="exercise{{ loop.index }}t" onfocusout="setComplex([{% for exercise in get_complex() %} document.getElementById('exercise{{ loop.index }}').value {% if not exercise == 'None' %} + ' | ' + document.getElementById('exercise{{ loop.index }}r').value + ' | ' + document.getElementById('exercise{{ loop.index }}t').value {% endif %}, {% endfor %}])" name="exercise{{ loop.index }}" id="exercise{{ loop.index }}">
+                            <option value="none">None</option>
+                            {% if exercise.split(" | ")[2] == "each" %}
+                                <option value="each" selected>Each</option>
                             {% else %}
-                                <option value="{{ amount }}">{{ amount }}</option>
+                                <option value="each">Each</option>
                             {% endif %}
-                        {% endfor %}
-                    </select>{% else %}
-                    <div style="margin-left: 0.4%; width: 6%"></div>
-                    {% endif %}<img onclick="removeComplexExercise({{ loop.index }})" src="{{ url_for('static', filename='images/icons/remove.png') }}"></img>
+                            {% if exercise.split(" | ")[2] == "1 side" %}
+                                <option value="1 side" selected>Side</option>
+                            {% else %}
+                                <option value="1 side">Side</option>
+                            {% endif %}
+                            {% if exercise.split(" | ")[2] == "seconds" %}
+                                <option value="seconds" selected>Secs</option>
+                            {% else %}
+                                <option value="seconds">Secs</option>
+                            {% endif %}
+                        </select>
+                    {% else %}
+                        <div style="margin-left: 0.4%; width: 6%"></div>
+                        <div style="margin-left: 0.4%; width: 6%"></div>
+                    {% endif %}
+                    <img onclick="removeComplexExercise({{ loop.index }})" src="{{ url_for('static', filename='images/icons/remove.png') }}"></img>
             </div>
             {% endfor %}
         </div>

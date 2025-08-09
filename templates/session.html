@@ -35,12 +35,12 @@
                     {% if not (exercise == "None") %}
                     <tr>
                         <td>{{ exercise.split(" | ")[0] }}</td>
-                        <td>{{ exercise.split(" | ")[1] }}</td>
+                        <td>{{ exercise.split(" | ")[1] }}{% if not exercise.split(" | ")[2] == "none" %} ({{ exercise.split(" | ")[2] }}){% endif %}</td>
                         {% for client in get_session_clients() %}
                             {% with exercises = get_exercises() %}
                                 {% for exercise2 in exercises %}
                                     {% for count in exercise2["data"]["reps"] %}
-                                        {% if exercise == exercise2["name"] + " | " + count %}
+                                        {% if exercise.split(" | ")[0] == exercise2["name"] and exercise.split(" | ")[1] == count %}
                                             {% for unit in get_units() %}
                                                 {% if exercise2["unit"] == unit["name"] %}
                                                     {% with suggestion = get_suggestion(exercise.split(' | ')[0], exercise.split(' | ')[1], client) %}

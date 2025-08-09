@@ -296,7 +296,7 @@ def rename_client(old, new):
 # Remote deploy version.
 @app.route('/ver')
 def version():
-    return "v1 (August 6th, 2025)"
+    return "v2 (August 8th, 2025)"
 
 
 # Start the application.
